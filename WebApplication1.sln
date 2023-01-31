@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SaleAppExample", "SaleAppExample.csproj", "{27213B16-9F74-4A28-A425-05B67B4460A8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SaleAppExample", "SaleApp\SaleAppExample.csproj", "{27213B16-9F74-4A28-A425-05B67B4460A8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject1", "TestProject1\TestProject1.csproj", "{24690FDE-292A-407A-90E0-60136FA24483}"
 EndProject

@@ -25,6 +25,28 @@
     <Compile Remove="Controllers\SaleDataController.cs" />
     <Compile Remove="Controllers\SalePointController.cs" />
     <Compile Remove="Controllers\BuyerController.cs" />
+    <Compile Remove="TestProject1\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="TestProject1\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="TestProject1\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="TestProject1\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="TestProject1\bin\Debug\net5.0\TestProject1.deps.json" />
+    <_ContentIncludedByDefault Remove="TestProject1\bin\Debug\net5.0\TestProject1.runtimeconfig.dev.json" />
+    <_ContentIncludedByDefault Remove="TestProject1\bin\Debug\net5.0\TestProject1.runtimeconfig.json" />
+    <_ContentIncludedByDefault Remove="TestProject1\obj\project.assets.json" />
+    <_ContentIncludedByDefault Remove="TestProject1\obj\project.packagespec.json" />
+    <_ContentIncludedByDefault Remove="TestProject1\obj\TestProject1.csproj.nuget.dgspec.json" />
   </ItemGroup>
 
 </Project>
