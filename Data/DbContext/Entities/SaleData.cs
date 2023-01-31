@@ -3,10 +3,11 @@ using SaleAppExample.Data.DbContext.Entities.Service;
 
 namespace SaleAppExample.Data.DbContext.Entities
 {
-	public class SalesData : Entity<Guid>
+	public class SaleData : Entity<Guid>
 	{
-		public int ProductId { get; set; }
-		public int Quantity { get; set; }
+		public Guid ProductId { get; set; }
 		public Product Product { get; set; }
+		public int ProductQuantity { get; set; }
+		public decimal ProductIdAmount { get; set; }
 	}
 }

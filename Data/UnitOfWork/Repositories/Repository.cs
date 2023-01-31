@@ -10,10 +10,10 @@ namespace SaleAppExample.Data.UnitOfWork.Repositories
 {
     public class Repository<TEntity, TKey> : IRepository<TEntity, TKey> where TEntity : Entity<TKey> where TKey:struct
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationMemoryDbContext _context;
         private readonly DbSet<TEntity> _dbSet;
 
-        public Repository(ApplicationDbContext context)
+        public Repository(ApplicationMemoryDbContext context)
         {
             _context = context;
             _dbSet = _context.Set<TEntity>();

@@ -15,7 +15,6 @@ namespace SaleAppExample.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class UniversalController<TEntity, TKey> : ControllerBase where TEntity : Entity<TKey> where TKey:struct
     {
         private readonly IUnitOfWork _unitOfWork;
