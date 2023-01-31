@@ -1,10 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using SaleAppExample.Data.DbContext.Entities;
-using SaleAppExample.Data.DbContext.Entities.Service;
 
 namespace SaleAppExample.Data.DbContext
 {
-    public class ApplicationDbContext : Microsoft.EntityFrameworkCore.DbContext, IDataContext
+    public class ApplicationDbContext : CustomBaseDataContext
     {
         public DbSet<Product> Products { get; set; }
         public DbSet<SalesPoint> SalesPoints { get; set; }
@@ -17,14 +16,9 @@ namespace SaleAppExample.Data.DbContext
         {
         }
 
-        public DbSet<TEntity> Set<TEntity, TKey>() where TEntity : Entity<TKey> where TKey : struct
+        public override DbSet<TEntity> Set<TEntity, TKey>()
         {
             return this.Set<TEntity>();
-        }
-
-        public void SaveChanges()
-        {
-            base.SaveChanges();
         }
     }
 }

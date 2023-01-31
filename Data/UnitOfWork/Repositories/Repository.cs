@@ -19,27 +19,27 @@ namespace SaleAppExample.Data.UnitOfWork.Repositories
             _dbSet = _context.Set<TEntity>();
         }
 
-        public async Task<TEntity> GetByIdAsync(TKey id)
+        public virtual async Task<TEntity> GetByIdAsync(TKey id)
         {
             return await _dbSet.FirstOrDefaultAsync(el => el.Equals(id));
         }
 
-        public IQueryable<TEntity> GetAllAsync()
+        public virtual IQueryable<TEntity> GetAllAsync()
         {
             return _dbSet;
         }
 
-        public void Insert(TEntity entity)
+        public virtual void Insert(TEntity entity)
         {
             _dbSet.Add(entity);
         }
 
-        public void Update(TEntity entity)
+        public virtual void Update(TEntity entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
         }
 
-        public void Delete(TEntity entity)
+        public virtual void Delete(TEntity entity)
         {
             _dbSet.Remove(entity);
         }

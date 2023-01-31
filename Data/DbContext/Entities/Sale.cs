@@ -6,7 +6,6 @@ namespace SaleAppExample.Data.DbContext.Entities
 {
 	public class Sale : Entity<Guid>
 	{
-		public int Id { get; set; }
 		public int BuyerId { get; set; }
 		public Buyer Buyer { get; set; }
 		public int SalesPointId { get; set; }

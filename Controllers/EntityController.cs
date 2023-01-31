@@ -46,7 +46,7 @@ namespace SaleAppExample.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<TEntity>> Post(TEntity entity, CancellationToken ct = default)
+        public virtual async Task<ActionResult<TEntity>> Post(TEntity entity, CancellationToken ct = default)
         {
             _repository.Insert(entity);
             await _unitOfWork.CommitAsync(ct);

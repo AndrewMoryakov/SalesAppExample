@@ -40,7 +40,7 @@ namespace SaleAppExample
                 options.UseMemoryCache(new MemoryCache(new MemoryCacheOptions())));//Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddAuthorization();
-            services.AddScoped<IDataContext, ApplicationDbContext>();
+            services.AddScoped<CustomBaseDataContext, ApplicationDbContext>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddControllers().AddControllersAsServices();
             

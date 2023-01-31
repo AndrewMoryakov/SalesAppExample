@@ -10,7 +10,7 @@ namespace SaleAppExample.Data.UnitOfWork;
 
 public class UnitOfWork : IUnitOfWork
 {
-	private readonly ApplicationDbContext _context;
+	private readonly CustomBaseDataContext _context;
 	private Dictionary<Type, object> _repositories;
 
 	public UnitOfWork(ApplicationDbContext context)
