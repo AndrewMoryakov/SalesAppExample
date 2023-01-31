@@ -9,8 +9,18 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using SaleAppExample.Controllers;
+using SaleAppExample.Data.DbContext;
+using SaleAppExample.Data.DbContext.Entities;
+using SaleAppExample.Data.DbContext.Entities.Service;
+using SaleAppExample.Data.UnitOfWork;
+using SaleAppExample.Data.UnitOfWork.Repositories;
 
 namespace SaleAppExample
 {
@@ -26,30 +36,44 @@ namespace SaleAppExample
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseMemoryCache(new MemoryCache(new MemoryCacheOptions())));//Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddControllers();
+            services.AddAuthorization();
+            services.AddScoped<IDataContext, ApplicationDbContext>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddControllers().AddControllersAsServices();
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SaleAppExample", Version = "v1" });
+                c.EnableAnnotations();
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseStaticFiles();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SaleAppExample v1"));
             }
+            
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "SaleAppExample v1");
+                c.DocumentTitle = "test api";
+            });
+            
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseCors("CorsPolicy");
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
