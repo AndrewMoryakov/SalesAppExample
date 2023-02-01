@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using SaleAppExample.Data;
 using SaleAppExample.Data.DbContext;
+using SaleAppExample.Data.UnitOfWork;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace SaleAppExample;
@@ -15,12 +16,12 @@ namespace SaleAppExample;
 public static class Program
 {
     private static IConfigurationRoot _conf;
+
     public static void Main(string[] args)
     {
-        var buildedHost = CreateHostBuilder(args);
-            var b = buildedHost.Build();
-        InitDb(b, _conf);
-        b.Run();
+        var buildedHost = CreateHostBuilder(args).Build();
+        InitDb(buildedHost, _conf);
+        buildedHost.Run();
     }
 
     public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -34,7 +35,8 @@ public static class Program
                 IHostEnvironment env = builderContext.HostingEnvironment;
 
                 _conf = config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                    .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true).Build();
+                    .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
+                    .Build();
             });
 
 
@@ -43,11 +45,12 @@ public static class Program
         using (var scope = host.Services.CreateScope())
         {
             IServiceProvider services = scope.ServiceProvider;
-            
-                var context = new AppDbContextFactory(conf, services)
-                    .CreateDbContext(new string[] {""});
-                // AppDbInitializer.Initialize(context, conf);}
-  
+
+            var context = new AppDbContextFactory(services)
+                .CreateDbContext(new string[] {""});
+            var uow = services.GetRequiredService<IUnitOfWork>();
+            AppDbInitializer.Initialize(context, conf, uow);
         }
+
     }
 }

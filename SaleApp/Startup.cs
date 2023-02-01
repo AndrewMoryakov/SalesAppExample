@@ -18,7 +18,6 @@ namespace SaleAppExample
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<CustomBaseDataContext, ApplicationMemoryDbContext>();
@@ -26,15 +25,15 @@ namespace SaleAppExample
             switch (Configuration["DbProvider"])
             {
                 case "sqlite":
-                    services.AddEntityFrameworkSqlite().AddDbContext<ApplicationMemoryDbContext>(
-                        opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnectionSqlite")));
+                    services.AddDbContext<ApplicationMemoryDbContext>(
+                        opt => opt.UseSqlite(Configuration.GetConnectionString("DefaultConnectionSqlite")));
                     break;
                 case "mssql":
-                    services.AddEntityFrameworkSqlServer().AddDbContext<ApplicationMemoryDbContext>(
+                    services.AddDbContext<ApplicationMemoryDbContext>(
                         opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnectionMsSql")));
                     break;
                 case "ram":
-                    services.AddEntityFrameworkInMemoryDatabase().AddDbContext<ApplicationMemoryDbContext>(
+                    services.AddDbContext<ApplicationMemoryDbContext>(
                         opt => opt.UseInMemoryDatabase("dateBaseInMemory"));
                     break;
             }

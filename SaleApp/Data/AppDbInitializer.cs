@@ -15,42 +15,51 @@ namespace SaleAppExample.Data;
 public class AppDbInitializer
 {
 	private static IUnitOfWork _uof;
-	public static void Initialize(ApplicationMemoryDbContext context, IConfiguration conf, IUnitOfWork uof)
+	private static IConfiguration _conf;
+	public static void Initialize(CustomBaseDataContext context, IConfiguration conf, IUnitOfWork uof)
 	{
-		if (conf["SeedForce"].ToLower() == "true"
-		    || !((RelationalDatabaseCreator)context.GetService<IDatabaseCreator>()).Exists())
+		_conf = conf;
+		_uof = uof;
+		
+		if ((conf["SeedForce"].ToLower() == "true" || conf["DbProvider"].ToLower() == "ram")
+		    || (conf["DbProvider"].ToLower() != "ram" && !((RelationalDatabaseCreator)context.GetService<IDatabaseCreator>()).Exists()))
 		{
 			using (context)
 				CreateDb(context);
 		}
-
-		_uof = uof;
 	}
 
-	private static void CreateDb(ApplicationMemoryDbContext context)
+	private static void CreateDb(CustomBaseDataContext context)
 	{
-		context.Database.EnsureCreated();
+		if(_conf["DbProvider"].ToLower() != "ram")
+			context.Database.EnsureCreated();
 
 		var users = new List<Product>
 		{
 			new()
 			{
 				Id = Guid.NewGuid(),
-				Name = "Молотый кофе"
+				Name = "Молотый кофе",
+				Price = 10
 			},
 			new()
 			{
 				Id = Guid.NewGuid(),
-				Name = "Вода"
+				Name = "Вода",
+				Price = 2
 			},
-			// new()
-			// {
-			//     Name = "Сливочное масло"
-			// },
-			// new()
-			// {
-			//     Name = "Кокосовое масло"
-			// }
+			new()
+			{
+				Id = Guid.NewGuid(),
+				Name = "Сливочное масло",
+				Price = 5
+			},
+			new()
+			{
+				Id = Guid.NewGuid(),
+				Name = "Кокосовое масло",
+				Price = 6
+			}
 		};
 		
 		foreach (var user in users)
