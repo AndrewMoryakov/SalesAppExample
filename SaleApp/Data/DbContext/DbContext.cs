@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using SaleAppExample.Data.DbContext.Entities;
 using SaleAppExample.Data.DbContext.Entities.Service;
@@ -22,6 +23,17 @@ namespace SaleAppExample.Data.DbContext
         public DbSet<TEntity> Set<TEntity, TKey>() where TEntity:Entity<Guid>
         {
             return this.Set<TEntity>();
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            #region seed data
+
+            // modelBuilder.Entity<Product>().HasData(
+            #endregion
+
+            // base.OnModelCreating(modelBuilder);
         }
     }
 }

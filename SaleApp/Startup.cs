@@ -7,6 +7,7 @@ using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using SaleAppExample.Data.DbContext;
 using SaleAppExample.Data.UnitOfWork;
+using SaleAppExample.Filters;
 
 namespace SaleAppExample
 {
@@ -47,6 +48,8 @@ namespace SaleAppExample
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SaleAppExample", Version = "v1" });
                 c.EnableAnnotations();
+                c.SchemaFilter<SwaggerSchemaFilter>();
+
             });
         }
 
