@@ -1,5 +1,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using SaleAppExample.Data.DbContext.Entities;
 using SaleAppExample.Data.DbContext.Entities.Service;
 
@@ -14,8 +15,8 @@ namespace SaleAppExample.Data.DbContext
         public DbSet<ProvidedProduct> ProvidedProducts { get; set; }
         public DbSet<SaleData> SalesData { get; set; }
 
-        public ApplicationMemoryDbContext(DbContextOptions options)
-            : base(options)
+        public ApplicationMemoryDbContext(DbContextOptions options, ILogger<ApplicationMemoryDbContext> logger)
+            : base(options, logger)
         {
         }
 

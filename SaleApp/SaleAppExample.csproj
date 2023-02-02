@@ -9,6 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Mapster" Version="7.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.17" />
+    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="5.0.17" />
     <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="5.0.17" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.17" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.17" />
@@ -20,11 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Controllers\ProviderProductController.cs" />
-    <Compile Remove="Controllers\SaleController.cs" />
-    <Compile Remove="Controllers\SaleDataController.cs" />
-    <Compile Remove="Controllers\SalePointController.cs" />
-    <Compile Remove="Controllers\BuyerController.cs" />
+    <Compile Remove="Controllers\WeatherForecastController.cs" />
   </ItemGroup>
 
 </Project>
