@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using SaleAppExample.Data;
 using SaleAppExample.Data.DbContext.Entities;
 using SaleAppExample.Data.DbContext.Entities.Service;
@@ -16,32 +17,23 @@ namespace SaleAppExample.Controllers;
 [ApiController]
 public class SaleController : ControllerBase
 {
-	
-	private readonly IUnitOfWork _unitOfWork;
-	private readonly IRepository<Sale, Guid> _repository;
 
-	public SaleController(IUnitOfWork unitOfWork)
+	private readonly ISaleStore _saleStore;
+	private readonly IRepository<Sale, Guid> _repository;
+	private readonly ILogger<SaleController> _logger;
+	public SaleController(ISaleStore saleStore, ILogger<SaleController> logger)
 	{
-		_unitOfWork = unitOfWork;
-		_repository = _unitOfWork.Repository<Sale, Guid>();
+		_saleStore = saleStore;
+		_logger = logger;
 	}
-	//
-	// [HttpPost]
-	// public async Task<ActionResult<Entity<Guid>>> Post(SaleBinding s, CancellationToken ct = default)
-	// {
-	// 	var sale = s.Adapt<Sale>();
-	// 	return Ok(await this.Post(sale, ct));
-	// }
-	
+
 	[HttpPost]
 	public async Task<ActionResult<Sale>> Post(Sale entity, CancellationToken ct = default)
 	{
-		_repository.Insert(entity);
-		await _unitOfWork.CommitAsync(ct);
-
-		return CreatedAtAction("GetById", new { id = entity.Id }, entity);
+		var addedSale = _saleStore.AddAsync(entity, ct);
+		return CreatedAtAction("GetById", new {id = addedSale.Id}, addedSale);
 	}
-	
+
 	[HttpGet("{id}")]
 	public async Task<ActionResult<Sale>> GetById(Guid id)
 	{

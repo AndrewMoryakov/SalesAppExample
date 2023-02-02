@@ -34,7 +34,27 @@ public class AppDbInitializer
 		if(_conf["DbProvider"].ToLower() != "ram")
 			context.Database.EnsureCreated();
 
-		var users = new List<Product>
+		var users = new List<Buyer>
+		{
+			new()
+			{
+				Id = Guid.NewGuid(),
+				Name = "Иван",
+			},
+			new()
+			{
+				Id = Guid.NewGuid(),
+				Name = "Петр",
+			},
+		};
+
+		foreach (var user in users)
+		{
+			_uof.Repository<Buyer, Guid>().Insert(user);
+		}
+		
+		
+		var products = new List<Product>
 		{
 			new()
 			{
@@ -62,11 +82,28 @@ public class AppDbInitializer
 			}
 		};
 		
-		foreach (var user in users)
+		foreach (var user in products)
 		{
-			_uof.Repository<Product, Guid>().Insert(user);			
+			_uof.Repository<Product, Guid>().Insert(user);
 		}
+		context.SaveChanges();
 
+		var salePoint = new SalePoint
+		{
+			Name = "Кофейник",
+			Address = "Во дворе",
+		};
+		_uof.Repository<SalePoint, Guid>().Insert(salePoint);
+		context.SaveChanges();
+
+		var firstProvidedProducts = new ProvidedProduct
+		{
+			ProductId = products[0].Id,
+			ProductQuantity = 10,
+			SalePointId = salePoint.Id
+		};
+		
+		_uof.Repository<ProvidedProduct, Guid>().Insert(firstProvidedProducts);
 		context.SaveChanges();
 	}
 }

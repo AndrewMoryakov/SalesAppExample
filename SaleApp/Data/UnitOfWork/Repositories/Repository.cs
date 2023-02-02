@@ -8,12 +8,12 @@ using SaleAppExample.Data.DbContext.Entities.Service;
 
 namespace SaleAppExample.Data.UnitOfWork.Repositories
 {
-    public class Repository<TEntity, TKey> : IRepository<TEntity, TKey> where TEntity : Entity<TKey> where TKey:struct
+    public class Repository<TEntity, TKey> : IRepository<TEntity, TKey> where TEntity : Entity<TKey> where TKey:struct 
     {
-        private readonly ApplicationMemoryDbContext _context;
+        private readonly CustomBaseDataContext _context;
         private readonly DbSet<TEntity> _dbSet;
 
-        public Repository(ApplicationMemoryDbContext context)
+        public Repository(CustomBaseDataContext context)
         {
             _context = context;
             _dbSet = _context.Set<TEntity>();

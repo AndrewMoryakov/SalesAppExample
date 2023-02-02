@@ -1,6 +1,6 @@
 using System;
-using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using SaleAppExample.Data.DbContext.Entities;
 using SaleAppExample.Data.DbContext.Entities.Service;
 
@@ -15,25 +15,14 @@ namespace SaleAppExample.Data.DbContext
         public DbSet<ProvidedProduct> ProvidedProducts { get; set; }
         public DbSet<SaleData> SalesData { get; set; }
 
-        public ApplicationMemoryDbContext(DbContextOptions options)
-            : base(options)
+        public ApplicationMemoryDbContext(DbContextOptions options, ILogger<ApplicationMemoryDbContext> logger)
+            : base(options, logger)
         {
         }
 
         public DbSet<TEntity> Set<TEntity, TKey>() where TEntity:Entity<Guid>
         {
             return this.Set<TEntity>();
-        }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-            #region seed data
-
-            // modelBuilder.Entity<Product>().HasData(
-            #endregion
-
-            // base.OnModelCreating(modelBuilder);
         }
     }
 }
