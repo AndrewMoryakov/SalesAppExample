@@ -28,8 +28,6 @@ namespace SaleAppExample
 
         public IConfiguration Configuration { get; }
 
-        
-        //ToDo Добавить Unit тесты
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<CustomBaseDataContext, ApplicationMemoryDbContext>();
