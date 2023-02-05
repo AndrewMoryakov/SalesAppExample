@@ -7,5 +7,8 @@ namespace SaleAppExample.Data.DbContext.Entities
 	{
 		public string Name { get; set; }
 		public decimal Price { get; set; }
+		public Guid Id { get; set; }
+		public DateTimeOffset CreatedDateTime { get; set; }
+		public DateTimeOffset? UpdatedDateTime { get; set; }
 	}
 }

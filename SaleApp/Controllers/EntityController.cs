@@ -29,7 +29,7 @@ namespace SaleAppExample.Controllers
         [HttpGet]
         public ActionResult<IQueryable<TEntity>> Get()
         {
-            var entities =  _repository.GetAllAsync();
+            var entities =  _repository.GetAll();
             return Ok(entities);
         }
 

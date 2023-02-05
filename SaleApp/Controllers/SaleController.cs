@@ -17,7 +17,6 @@ namespace SaleAppExample.Controllers;
 [ApiController]
 public class SaleController : ControllerBase
 {
-
 	private readonly ISaleStore _saleStore;
 	private readonly IRepository<Sale, Guid> _repository;
 	private readonly ILogger<SaleController> _logger;

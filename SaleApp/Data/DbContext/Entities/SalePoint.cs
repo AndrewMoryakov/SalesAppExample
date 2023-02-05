@@ -11,5 +11,7 @@ namespace SaleAppExample.Data.DbContext.Entities
 		public string Address { get; set; }
 		[IgnoreDataMember]
 		public ICollection<ProvidedProduct> ProvidedProducts { get; set; }
+		[IgnoreDataMember]
+		public ICollection<Sale> SaleOfThisSalePoint { get; set; }
 	}
 }

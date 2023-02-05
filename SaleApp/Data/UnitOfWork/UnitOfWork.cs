@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using SaleAppExample.Data.DbContext;
 using SaleAppExample.Data.DbContext.Entities;
 using SaleAppExample.Data.DbContext.Entities.Service;
@@ -13,10 +15,11 @@ public class UnitOfWork : IUnitOfWork
 {
 	private readonly CustomBaseDataContext _context;
 	private Dictionary<Type, object> _repositories;
-
-	public UnitOfWork(CustomBaseDataContext context)
+	private ILogger<Entity<Guid>> _logger;
+	public UnitOfWork(CustomBaseDataContext context, ILogger<Entity<Guid>> logger)
 	{
 		_context = context;
+		_logger = logger;
 	}
 
 	public void Commit() => _context.SaveChanges();
@@ -42,7 +45,7 @@ public class UnitOfWork : IUnitOfWork
 
 			var repoType = repositoryType.MakeGenericType(typeof(TEntity), typeof(TKey));
 
-			var repositoryInstance = Activator.CreateInstance(repoType, _context);
+			var repositoryInstance = Activator.CreateInstance(repoType, _context, _logger);
 			_repositories[type] = repositoryInstance;
 		}
 		return (IRepository<TEntity, TKey>)_repositories[type];

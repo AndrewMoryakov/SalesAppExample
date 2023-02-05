@@ -8,7 +8,11 @@ namespace SaleAppExample.Data.DbContext.Entities
 	{
 		public Guid ProductId { get; set; }
 		[IgnoreDataMember]
-		public Product Product { get; set; }
+		public virtual Product Product { get; set; }
+		[IgnoreDataMember]
+		public Guid SaleId { get; set; }
+		[IgnoreDataMember]
+		public Sale Sale { get; set; }
 		public int ProductQuantity { get; set; }
 		[IgnoreDataMember]
 		public decimal ProductIdAmount { get; set; }

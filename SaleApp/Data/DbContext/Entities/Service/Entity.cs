@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 
 namespace SaleAppExample.Data.DbContext.Entities.Service;
 
-public abstract class Entity<TKey> : IHasKey<TKey>, ITrackable where TKey:struct
+public class Entity<TKey> : IHasKey<TKey>, ITrackable where TKey:struct
 {
     [IgnoreDataMember]
     // [Key]

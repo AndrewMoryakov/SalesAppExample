@@ -9,10 +9,11 @@ using Microsoft.Extensions.Configuration;
 using SaleAppExample.Data.DbContext;
 using SaleAppExample.Data.DbContext.Entities;
 using SaleAppExample.Data.UnitOfWork;
+using SaleAppExample.Data.UnitOfWork.Repositories;
 
 namespace SaleAppExample.Data;
 
-public class AppDbInitializer
+public static class AppDbInitializer
 {
 	private static IUnitOfWork _uof;
 	private static IConfiguration _conf;
@@ -36,14 +37,14 @@ public class AppDbInitializer
 
 		var users = new List<Buyer>
 		{
-			new()
+			new Buyer()
 			{
-				Id = Guid.NewGuid(),
+				Id = new Guid("1d3ebe1f-1f0b-451a-9b5e-b094b0f49d27"),
 				Name = "Иван",
 			},
 			new()
 			{
-				Id = Guid.NewGuid(),
+				Id = new Guid("2d3ebe1f-1f0b-451a-9b5e-b094b0f49d27"),
 				Name = "Петр",
 			},
 		};
@@ -58,25 +59,25 @@ public class AppDbInitializer
 		{
 			new()
 			{
-				Id = Guid.NewGuid(),
+				Id = new Guid("3d3ebe1f-1f0b-451a-9b5e-b094b0f49d27"),
 				Name = "Молотый кофе",
 				Price = 10
 			},
 			new()
 			{
-				Id = Guid.NewGuid(),
+				Id = new Guid("4d3ebe1f-1f0b-451a-9b5e-b094b0f49d27"),
 				Name = "Вода",
 				Price = 2
 			},
 			new()
 			{
-				Id = Guid.NewGuid(),
+				Id = new Guid("5d3ebe1f-1f0b-451a-9b5e-b094b0f49d27"),
 				Name = "Сливочное масло",
 				Price = 5
 			},
 			new()
 			{
-				Id = Guid.NewGuid(),
+				Id = new Guid("6d3ebe1f-1f0b-451a-9b5e-b094b0f49d27"),
 				Name = "Кокосовое масло",
 				Price = 6
 			}
@@ -90,6 +91,7 @@ public class AppDbInitializer
 
 		var salePoint = new SalePoint
 		{
+			Id = new Guid("7d3ebe1f-1f0b-451a-9b5e-b094b0f49d27"),
 			Name = "Кофейник",
 			Address = "Во дворе",
 		};
@@ -98,6 +100,7 @@ public class AppDbInitializer
 
 		var firstProvidedProducts = new ProvidedProduct
 		{
+			Id = new Guid("8d3ebe1f-1f0b-451a-9b5e-b094b0f49d27"),
 			ProductId = products[0].Id,
 			ProductQuantity = 10,
 			SalePointId = salePoint.Id

@@ -11,6 +11,7 @@ using SaleAppExample.Data;
 using SaleAppExample.Data.DbContext;
 using SaleAppExample.Data.DbContext.Entities;
 using SaleAppExample.Data.UnitOfWork;
+using SaleAppExample.Data.UnitOfWork.Repositories;
 using SaleAppExample.Filters;
 using SaleAppExample.Security;
 
@@ -25,9 +26,7 @@ namespace SaleAppExample
 
         
         //ToDo Добавить Unit тесты
-        //ToDo доработать логику контроллера продаж
         //ToDO доработать авторизацю
-        //ToDo перепроверить по DRY, SOLID
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<CustomBaseDataContext, ApplicationMemoryDbContext>();
@@ -46,12 +45,11 @@ namespace SaleAppExample
                         opt => opt.UseInMemoryDatabase("dateBaseInMemory"));
                     break;
             }
-
             services.AddSingleton<IPasswordHasher<Buyer>, PasswordHasher<Buyer>>();
-            services.AddScoped<ISaleStore, SaleStore>();
             services.AddAuthorization();
-            // services.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));
+            services.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ISaleStore, SaleStore>();
             services.AddControllers().AddControllersAsServices();
             
             services.AddSwaggerGen(c =>
