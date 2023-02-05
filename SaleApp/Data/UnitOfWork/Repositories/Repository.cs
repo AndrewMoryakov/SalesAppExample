@@ -8,7 +8,7 @@ using SaleAppExample.Data.DbContext.Entities.Service;
 
 namespace SaleAppExample.Data.UnitOfWork.Repositories
 {
-    public class Repository<TEntity, TKey> : IRepository<TEntity, TKey> where TEntity : Entity<TKey> where TKey:struct,IComparable
+    public class Repository<TEntity, TKey> : IRepository<TEntity, TKey> where TEntity : class, Entity<TKey> where TKey:struct,IComparable
     {
         private readonly CustomBaseDataContext _context;
         private readonly DbSet<TEntity> _dbSet;

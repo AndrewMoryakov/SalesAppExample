@@ -5,7 +5,7 @@ using SaleAppExample.Data.DbContext.Entities.Service;
 
 namespace SaleAppExample.Data.DbContext.Entities
 {
-	public class ProvidedProduct : Entity<Guid>
+	public class ProvidedProduct : BaseEntity<Guid>
 	{
 		public Guid ProductId { get; set; }
 		[IgnoreDataMember]

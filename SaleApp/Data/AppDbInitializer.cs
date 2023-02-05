@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -17,10 +18,13 @@ public static class AppDbInitializer
 {
 	private static IUnitOfWork _uof;
 	private static IConfiguration _conf;
-	public static void Initialize(CustomBaseDataContext context, IConfiguration conf, IUnitOfWork uof)
+	private static IStoreOfUsers<Buyer, Guid> _userStore;
+	public static void Initialize(CustomBaseDataContext context, IConfiguration conf, IUnitOfWork uof,
+		IStoreOfUsers<Buyer, Guid> userStore)
 	{
 		_conf = conf;
 		_uof = uof;
+		_userStore = userStore;
 		
 		if ((conf["SeedForce"].ToLower() == "true" || conf["DbProvider"].ToLower() == "ram")
 		    || (conf["DbProvider"].ToLower() != "ram" && !((RelationalDatabaseCreator)context.GetService<IDatabaseCreator>()).Exists()))
@@ -30,7 +34,7 @@ public static class AppDbInitializer
 		}
 	}
 
-	private static void CreateDb(CustomBaseDataContext context)
+	private static async Task CreateDb(CustomBaseDataContext context)
 	{
 		if(_conf["DbProvider"].ToLower() != "ram")
 			context.Database.EnsureCreated();
@@ -40,18 +44,23 @@ public static class AppDbInitializer
 			new Buyer()
 			{
 				Id = new Guid("1d3ebe1f-1f0b-451a-9b5e-b094b0f49d27"),
+				Email = "ivan@test.org",
 				Name = "Иван",
+				Password = "123qwe@"
 			},
 			new()
 			{
 				Id = new Guid("2d3ebe1f-1f0b-451a-9b5e-b094b0f49d27"),
+				Email = "petr@test.org",
 				Name = "Петр",
+				Password = "123qwe@"
 			},
 		};
 
 		foreach (var user in users)
 		{
-			_uof.Repository<Buyer, Guid>().Insert(user);
+			await _userStore.AddAsync(user, user.Password);
+			// _uof.Repository<Buyer, Guid>().Insert(user);
 		}
 		
 		

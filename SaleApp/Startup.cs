@@ -1,7 +1,10 @@
+using System;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -14,6 +17,7 @@ using SaleAppExample.Data.UnitOfWork;
 using SaleAppExample.Data.UnitOfWork.Repositories;
 using SaleAppExample.Filters;
 using SaleAppExample.Security;
+using SaleAppExample.Services;
 
 namespace SaleAppExample
 {
@@ -26,7 +30,6 @@ namespace SaleAppExample
 
         
         //ToDo Добавить Unit тесты
-        //ToDO доработать авторизацю
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<CustomBaseDataContext, ApplicationMemoryDbContext>();
@@ -46,6 +49,29 @@ namespace SaleAppExample
                     break;
             }
             services.AddSingleton<IPasswordHasher<Buyer>, PasswordHasher<Buyer>>();
+
+            services.AddScoped<IStoreOfUsers<Buyer, Guid>, UserStore<Buyer, Guid>>();
+            
+            services.AddIdentity<Buyer, IdentityRole<Guid>>(p
+                    =>
+                {
+                    p.Password.RequireDigit = true;
+                    p.Password.RequiredLength = 6;
+                    p.Password.RequireLowercase = true;
+                    p.Password.RequireUppercase = true;
+                })
+                .AddEntityFrameworkStores<CustomBaseDataContext>();
+            // .AddDefaultTokenProviders();
+            
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            });
+
+            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<IUserService, UserService>();
+            
             services.AddAuthorization();
             services.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -57,18 +83,11 @@ namespace SaleAppExample
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SaleAppExample", Version = "v1" });
                 c.EnableAnnotations();
                 c.SchemaFilter<SwaggerSchemaFilter>();
-
-            });
-            
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             });
             
             //ToDO тут надо поработать над подключением Buyer как IdentityUser  
-            // services.AddScoped<ITokenFactory<Buyer>, TokenFactory<Buyer>>();	        
-            // services.AddScoped<IAuthenticationService<Buyer>, AuthenticationService<Buyer>>();
+            services.AddScoped<ITokenFactory<Buyer>, TokenFactory<Buyer>>();	        
+            services.AddScoped<IAuthenticationService<Buyer>, AuthenticationService<Buyer>>();
 	        
 	        
             services.Configure<AuthTokenOptions>(Configuration.GetSection("AuthOptions"));

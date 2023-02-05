@@ -6,7 +6,7 @@ using SaleAppExample.Data.DbContext.Entities.Service;
 
 namespace SaleAppExample.Data.DbContext.Entities
 {
-	public class Sale : Entity<Guid>
+	public class Sale : BaseEntity<Guid>
 	{
 		
 		public Guid BuyerId { get; set; }

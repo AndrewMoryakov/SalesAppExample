@@ -1,10 +1,12 @@
+using System;
 using System.Threading;
 using Microsoft.AspNetCore.Identity;
+using SaleAppExample.Data.DbContext.Entities.Service;
 using SaleAppExample.Exceptions;
 
 namespace SaleAppExample.Security;
 
-public class AuthenticationService<TUser> : IAuthenticationService<TUser> where TUser : IdentityUser
+public class AuthenticationService<TUser> : IAuthenticationService<TUser> where TUser : UserRoot<Guid>
 {
     private readonly IPasswordHasher<TUser> _passwordHasher;
     private readonly ITokenFactory<TUser> _tokenFactory;

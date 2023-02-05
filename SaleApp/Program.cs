@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using SaleAppExample.Data;
 using SaleAppExample.Data.DbContext;
+using SaleAppExample.Data.DbContext.Entities;
 using SaleAppExample.Data.UnitOfWork;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
@@ -49,7 +51,8 @@ public static class Program
             var context = new AppDbContextFactory(services)
                 .CreateDbContext(new string[] {""});
             var uow = services.GetRequiredService<IUnitOfWork>();
-            AppDbInitializer.Initialize(context, conf, uow);
+            var us = services.GetRequiredService<IStoreOfUsers<Buyer, Guid>>();
+            AppDbInitializer.Initialize(context, conf, uow, us);
         }
 
     }

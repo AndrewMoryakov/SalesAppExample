@@ -16,7 +16,8 @@ public class SwaggerSchemaFilter : ISchemaFilter
 		}
 
 		var ignoreDataMemberProperties = context.Type.GetProperties()
-			.Where(t => t.GetCustomAttribute<IgnoreDataMemberAttribute>() != null);
+			.Where(t => t.GetCustomAttribute<IgnoreDataMemberAttribute>() != null
+			            || t.GetCustomAttribute<AdvanceIgnoreDataMemberAttribute>() != null);
 
 		foreach (var ignoreDataMemberProperty in ignoreDataMemberProperties)
 		{

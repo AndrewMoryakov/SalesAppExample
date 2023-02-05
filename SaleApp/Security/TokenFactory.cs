@@ -4,10 +4,11 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
+using SaleAppExample.Data.DbContext.Entities.Service;
 
 namespace SaleAppExample.Security;
 
-public class TokenFactory<TUser> : ITokenFactory<TUser> where TUser:IdentityUser
+public class TokenFactory<TUser> : ITokenFactory<TUser> where TUser:UserRoot<Guid>
 {
     private readonly AuthTokenOptions _tokenTokenOptions;
     private readonly SigningCredentialsKeys _credentialsKeys;

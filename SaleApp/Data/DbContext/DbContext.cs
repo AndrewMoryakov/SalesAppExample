@@ -20,7 +20,7 @@ namespace SaleAppExample.Data.DbContext
         {
         }
 
-        public DbSet<TEntity> Set<TEntity, TKey>() where TEntity:Entity<Guid>
+        public DbSet<TEntity> Set<TEntity, TKey>() where  TEntity:class, Entity<Guid>
         {
             return this.Set<TEntity>();
         }

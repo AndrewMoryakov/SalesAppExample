@@ -17,7 +17,7 @@ namespace SaleAppExample.Data.DbContext
             _logger = logger;
         }
 
-        public virtual DbSet<TEntity> Set<TEntity, TKey>() where TEntity : Entity<TKey> where TKey : struct
+        public virtual DbSet<TEntity> Set<TEntity, TKey>() where TEntity : class, Entity<TKey> where TKey : struct
         {
             throw new NotImplementedException();
         }

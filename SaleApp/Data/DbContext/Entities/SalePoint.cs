@@ -5,7 +5,7 @@ using SaleAppExample.Data.DbContext.Entities.Service;
 
 namespace SaleAppExample.Data.DbContext.Entities
 {
-	public class SalePoint : Entity<Guid>
+	public class SalePoint : BaseEntity<Guid>
 	{
 		public string Name { get; set; }
 		public string Address { get; set; }
